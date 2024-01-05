@@ -1,133 +1,106 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/auth/components/app_assets.dart';
-import 'package:flutter_application_1/src/auth/components/custom_text_field.dart';
-import 'package:flutter_application_1/src/auth/sign_up_screen.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_application_1/src/auth/responsive_builder.dart';
 
-import 'components/gradient_line.dart';
-import 'components/singup_button.dart';
-import 'components/strings.dart';
+import 'components/large_login_icon.dart';
+import 'components/login_icon.dart';
+import 'components/signin_form.dart';
+import 'components/signin_form_with_border.dart';
 
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxHeight: height,
-              maxWidth: 720,
+      body: ResponsiveBuilder(
+        mobile: (context, constraints) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: constraints,
+                child: Center(
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      LoginIcon(size: constraints.maxHeight),
+                      const Spacer(),
+                      const SignInForm(),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
+          );
+        },
+        tablet: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: constraints,
+              child: Row(
                 children: [
-                  const Spacer(),
-                  Container(
-                    alignment: Alignment.center,
-                    child: Icon(
-                      FontAwesomeIcons.arrowRightToBracket,
-                      size: height * 0.20,
-                      color: Theme.of(context).colorScheme.primary,
+                  Expanded(
+                    flex: 3,
+                    child: LargeLoginIcon(
+                      size: constraints.maxWidth,
                     ),
                   ),
-                  const Spacer(),
-                  const CustomTextField(
-                    icon: Icons.email,
-                    label: Strings.email,
+                  const SizedBox(
+                    width: 16,
                   ),
-                  const SizedBox(height: 16),
-                  const CustomTextField(
-                    icon: Icons.lock,
-                    isObscure: true,
-                    label: Strings.lock,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        Strings.newPassword,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.tertiary),
-                      ),
+                  const Expanded(
+                    flex: 7,
+                    child: Column(
+                      children: [
+                        Spacer(),
+                        SignFormWithBorder(),
+                        Spacer(),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    height: 48,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        Strings.login,
-                        style: TextStyle(
-                            color: Theme.of(context).colorScheme.background),
-                      ),
-                    ),
+                  const SizedBox(
+                    width: 16,
                   ),
-                  const SizedBox(height: 32),
-                  Row(
-                    children: [
-                      GradientLine.endToStart(context),
-                      const SizedBox(width: 8),
-                      const Text(Strings.orSignUpWith),
-                      const SizedBox(width: 8),
-                      GradientLine.startToEnd(context),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SignUpButton(
-                        asset: AppAssets.google,
-                        onTap: () {},
-                      ),
-                      SignUpButton(
-                        asset: AppAssets.facebook,
-                        onTap: () {},
-                      ),
-                      SignUpButton(
-                        asset: AppAssets.apple,
-                        onTap: () {},
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(Strings.dontHaveAnAccount),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => const SignUpScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          Strings.registerNew,
-                          style: TextStyle(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
                 ],
               ),
             ),
-          ),
-        ),
+          );
+        },
+        desktop: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: constraints,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: LargeLoginIcon(
+                        size: constraints.maxWidth > 1200
+                            ? 1200
+                            : constraints.maxWidth),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  const Expanded(
+                    flex: 7,
+                    child: Column(
+                      children: [
+                        Spacer(),
+                        SignFormWithBorder(),
+                        Spacer(),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
   }
