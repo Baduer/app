@@ -1,8 +1,9 @@
 //Tela de Cadastro
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/src/auth/sign_in_screen.dart';
+
 import '../auth/components/custom_text_field.dart';
-import '../auth/components/class_strings.dart';
+import 'components/strings.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

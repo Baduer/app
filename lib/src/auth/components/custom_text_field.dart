@@ -1,4 +1,3 @@
-//Tela de formulário
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -7,24 +6,21 @@ class CustomTextField extends StatelessWidget {
   final String label;
 
   const CustomTextField(
-      {super.key, 
-      required this.icon, 
-      this.isObscure = false, 
+      {super.key,
+      required this.icon,
+      this.isObscure = false,
       required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
-      child: TextFormField(
-        obscureText: isObscure,
-        decoration: InputDecoration(
-          labelText: label,
-          prefixIcon: Icon(icon),
-          isDense: true,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
+    return TextFormField(
+      obscureText: isObscure,
+      decoration: InputDecoration(
+        labelText: label,
+        prefixIcon: Icon(icon),
+        isDense: true,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
         ),
       ),
     );

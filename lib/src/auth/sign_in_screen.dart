@@ -1,122 +1,106 @@
-//Tela de Login
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/src/auth/components/custom_text_field.dart';
-import 'package:flutter_application_1/src/auth/components/menu_icons.dart';
-import 'package:flutter_application_1/src/auth/sign_up_screen.dart';
-import '../auth/components/class_strings.dart';
+import 'package:flutter_application_1/src/auth/responsive_builder.dart';
 
+import 'components/large_login_icon.dart';
+import 'components/login_icon.dart';
+import 'components/signin_form.dart';
+import 'components/signin_form_with_border.dart';
 
-class SignInScreen extends StatefulWidget {
+class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
   @override
-  State<SignInScreen> createState() => _SignInScreenState();
-}
-
-class _SignInScreenState extends State<SignInScreen> {
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(children: [
-          //Icon Calendar
-          Padding(
-            padding: const EdgeInsets.only(top: 60),
-            child: Container(
-              alignment: Alignment.center,
-              child: const Icon(
-                Icons.calendar_month,
-                size: 220,
-                color: Colors.purple,
+      body: ResponsiveBuilder(
+        mobile: (context, constraints) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: constraints,
+                child: Center(
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      LoginIcon(size: constraints.maxHeight),
+                      const Spacer(),
+                      const SignInForm(),
+                      const Spacer(),
+                    ],
+                  ),
+                ),
               ),
             ),
-          ),
-        
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 32,
-              vertical: 40,
+          );
+        },
+        tablet: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: constraints,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: LargeLoginIcon(
+                      size: constraints.maxWidth,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  const Expanded(
+                    flex: 7,
+                    child: Column(
+                      children: [
+                        Spacer(),
+                        SignFormWithBorder(),
+                        Spacer(),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                ],
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment
-                  .stretch, //Esticando o botão com a mesma largura com os campos de texto
-              children: [
-                const CustomTextField(
-                  icon: Icons.email,
-                  label: 'E-mail',
-                ),
-                const CustomTextField(
-                  icon: Icons.lock,
-                  isObscure: true,
-                  label: Strings.lock,
-                ),
-        
-                //Esqueceu a senha
-                //Usando o Align p string ficar no canto direito
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      Strings.newPassword,
-                      style: TextStyle(color: Colors.red),
+          );
+        },
+        desktop: (context, constraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: constraints,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: LargeLoginIcon(
+                        size: constraints.maxWidth > 1200
+                            ? 1200
+                            : constraints.maxWidth),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  const Expanded(
+                    flex: 7,
+                    child: Column(
+                      children: [
+                        Spacer(),
+                        SignFormWithBorder(),
+                        Spacer(),
+                      ],
                     ),
                   ),
-                ),
-        
-                //Botão Login
-                SizedBox(
-                  height: 40,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    )),
-                    onPressed: () {},
-                    child: const Text(
-                      Strings.login,
-                      style: TextStyle(fontSize: 18),
-                    ),
+                  const SizedBox(
+                    width: 16,
                   ),
-                ),
-        
-                //Entrar com google e Apple
-                const MenuIcons(),
-                
-                //Cadastro
-                SizedBox(
-                  height: 40,
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(17),
-                      ),
-                      side: const BorderSide(
-                        width: 2,
-                        color: Colors.purple,
-        
-                      )
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: 
-                        (context) => const SignUpScreen(),
-                        ),
-                        );                      
-                    },
-                    child: const Text(
-                      Strings.registerNew,
-                      style: TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ]),
+          );
+        },
       ),
     );
   }
